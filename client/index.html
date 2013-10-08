@@ -18,6 +18,7 @@
       <header>
         <h1>Hack.Chat Client</h1>
         <p>You are chatting as: <span class="userName"></span></p>
+         <p>You are chatting in room: <span class="userRoom"></span></p>
       </header>
       <div id="enter-chat">
         <form>
@@ -29,9 +30,20 @@
       </div>
 
       <div id="friendList">
+        <div class="sidebar-header">
+          Friends Online
+        </div>
+        <div class="sidebar-list">
+        </div>
       </div>
 
       <div id="roomList">
+        <div class="sidebar-header">
+          Rooms available
+        </div>
+        <div class="sidebar-list">
+          <a href="#" class="currentRoom"><p>lobby</p></a>
+        </div>
         <form>
           <input type=text id="newRoomName" placeholder="Make new room...">
           <input type=submit value="Submit" id="makeRoomButton">

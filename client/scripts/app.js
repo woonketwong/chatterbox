@@ -26,11 +26,27 @@ $(document).ready(function(){
 
   $('#chat-box').on('click', "a.chatterName", function(e){
     e.preventDefault();
-    if (thisUser.friends.hasOwnProperty($(this).text())){
-      alert('You are already friend with ' + $(this).text());
+    var friendClick = $(this).text();
+    if (thisUser.friends[friendClick] !== undefined){
+      var removeFriend = prompt('You are already friend with ' + friendClick + '. Remove them from friends list? (y/n)');
+      if (removeFriend === 'y' || removeFriend === 'Y') {
+        delete thisUser.friends[friendClick];
+        $('#friendList .currentFriend:contains('+friendClick+')').remove();
+      }
     } else {
-      thisUser.friends[$(this).text()] = $(this).text();
-      alert($(this).text() + ' added as friend.');
+      thisUser.friends[friendClick] = friendClick;
+      alert(friendClick + ' added as friend.');
+      $('#friendList .sidebar-list').append('<a href="#" class="currentFriend"><p>' + friendClick + '</p></a>');
+    }
+  });
+
+  $('#friendList').on('click', "a.currentFriend", function(e){
+    e.preventDefault();
+    friendClick = $(this).text();
+    var removeFriend = prompt('Remove ' + friendClick + ' from friends list? (y/n)');
+    if (removeFriend === 'y' || removeFriend === 'Y') {
+      delete thisUser.friends[friendClick];
+      $('#friendList .currentFriend:contains('+ friendClick +')').remove();
     }
   });
 
@@ -42,11 +58,13 @@ $(document).ready(function(){
     } else {
       if (!rooms.hasOwnProperty(newRoomName)){
         rooms[newRoomName] = true;
-        alert('New room created');
+        alert('New room created. Joining that room.');
+        $('.userRoom').text(newRoomName);
+        $('#roomList sidebar-list').append('<a href="#" class="currentRoom"><p>' + newRoomName + '</p></a>');
       } else {
-        alert('Room already exist and switching to that room');
+        alert('Room already exists. Moving you to that room.');
       }
-        thisUser.room = newRoomName;
+      thisUser.room = newRoomName;
     }
   });
 
@@ -57,6 +75,7 @@ var getUserName = function() {
   var URLparams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
   thisUser.username = URLparams.username;
   $('.userName').text(thisUser.username);
+  $('.userRoom').text(thisUser.room);
 };
 
 var sendMessages = function(newChatMessage){
@@ -96,14 +115,18 @@ var addNewMessages = function(messages) {
   for (var i = messages.length - 1; i >= 0; i --) {
     var thisMessageDate = new Date(messages[i].createdAt);
     if (thisMessageDate > lastMessage) {
+      if (rooms[messages[i].roomname] === undefined) {
+        $('#roomList sidebar-list').append('<a href="#" class="currentRoom"><p>' + messages[i].roomname + '</p></a>');
+        rooms[messages[i].roomname] = true;
+      }
       if (messages[i].roomname === thisUser.room){
         var safeString = makeSafeString(messages[i].text);
         var thisDate = convertTime(messages[i].createdAt);
         lastMessage = new Date(messages[i].createdAt);
         if (thisUser.friends[messages[i].username]) {
-          $('#chat-box').prepend("<div class='chat-container friend'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+          $('#chat-box').prepend("<div class='chat-container friend'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> said:</p><p class='chat-string'>"+ safeString + "</p>" );
         } else {
-          $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+          $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> said:</p><p class='chat-string'>"+ safeString + "</p>" );
         }
       }
     }
@@ -142,14 +165,13 @@ var convertTime = function(time) {
   var day = thisDate.getDate();
   var year = thisDate.getFullYear();
   var hour = thisDate.getHours();
-  var amPm = (hour > 12) ? "PM" : "AM";
+  var amPm = (hour > 12) ? "pm" : "am";
   if (hour !== 12) {
     hour = (hour > 12) ? hour-12 : hour;
   }
   var minutes = thisDate.getMinutes();
 
   minutes = ('0' + minutes).slice(-2);
-  var seconds = thisDate.getSeconds();
-  thisDate = day + " / " + month + " / " + year + " at " + hour + ":" + minutes + ":" + seconds + " " + amPm;
+  thisDate = day + "/" + month + "/" + year + " at " + hour + ":" + minutes + amPm;
   return thisDate;
 }

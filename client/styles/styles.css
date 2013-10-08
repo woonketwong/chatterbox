@@ -1,17 +1,19 @@
 body {
-    background: #eee;
+    background: #ddd;
     text-align: center;
     padding: 0 25px;
 }
 
 #main {
     width: 960px;
-    margin: auto;
+    height: 100%;
+    margin: 10px auto 30px auto;
     text-align: left;
     background: white;
     padding: 10px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
+    display: table;
 }
 
 #main .error {
@@ -45,16 +47,17 @@ header h1 {
 }
 
 header p {
+  clear:right;
   float:right;
   font-size:19px;
   font-weight: 700;
   padding: 0;
-  margin-top:9px;
+  margin: -4px 0 7px 0;
 }
 
 #chat-box {
   float:left;
-  width: 600px;
+  width: 655px;
   min-height:10px;
   border: 1px solid #999;
   border-radius:10px;
@@ -62,7 +65,8 @@ header p {
 }
 
 .chat-container {
-  width: 425px;
+  width: 600px;
+  overflow: auto;
   background-color: #B0D6D4;
   border: 1px solid #999;
   margin:10px auto 10px auto;
@@ -73,10 +77,17 @@ header p {
   padding: 5px 0 5px 0;
 }
 .chat-user {
-  font-size:18px;
+  font-size:13px;
   font-color: #cc0000;
   font-weight: 600;
 }
+
+.chat-string {
+  font-size:16px;
+  letter-spacing: .4px;
+  font-weight: 400;
+}
+
 .friend {
   background-color: red !important;
 }
@@ -85,17 +96,18 @@ header p {
   width:480px;
   height: 50px;
   margin: 0 auto 20px auto;
+  float:left;
 }
 
 #enter-chat input[type=text] {
   height: 30px;
   width: 400px;
-  border: 1px solid #000;
+  border: 1px solid #888;
   padding: 1px 5px 1px 5px;
 }
 #enter-chat input[type=text]:focus {
   outline:none;
-  border-color:red;
+  border-color:#000;
   box-shadow: inset 2px 2px 4px #777;
 }
 
@@ -109,3 +121,60 @@ header p {
   height: 33px;
   width: 60px;
 }
+
+#enter-chat input[type=submit]:focus {
+  outline:none;
+}
+#friendList, #roomList {
+  clear:right;
+  float:right;
+  width:250px;
+  height:200px;
+  border:1px solid #888;
+  margin-bottom: 15px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  width:100%;
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+  background-color: #777;
+  margin-bottom:10px;
+}
+
+#roomList form {
+  height: 20px;
+  bottom:24px;
+  margin-left:9px;
+  margin-top:3px;
+}
+
+#roomList input[type=text] {
+  border: 1px solid #000;
+  width: 170px;
+}
+
+.sidebar-list {
+  width:85%;
+  height: 100px;
+  margin: 0 auto;
+  border: 1px solid #aaa;
+  padding:10px;
+}
+
+.sidebar-list a {
+  text-decoration: none;
+  font-size:17px;
+}
+
+.sidebar-list p {
+  padding: 0;
+  margin: 0
+}
+
+ #friendList .sidebar-list {
+  height:120px;
+ }
