@@ -61,16 +61,39 @@ var addNewMessages = function(messages) {
   $('.chat-container').remove();
   for (var i=messages.length-1; i >= 0; i--) {
     if (messages[i].text !== undefined) {
-      if (messages[i].text[0] === "<") {
-        continue;
-      } else {
+        var safeString = makeSafeString(messages[i].text);
         var thisDate = convertTime(messages[i].createdAt);
-        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " " + messages[i].username + " says:</p><p>"+ messages[i].text + "</p>" );
-      }
+        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " " + messages[i].username + " says:</p><p>"+ safeString + "</p>" );
     } else {
       continue;
     }
   }
+};
+
+var makeSafeString = function(string) {
+  var newSafeString = "";
+  for (var i = 0; i < string.length; i++){
+    if(string[i] === '&') {
+      newSafeString += '&amp';
+    } else if (string[i] === '<') {
+      newSafeString += '&lt';
+    } else if (string[i] === '>') {
+      newSafeString += '&gt';
+    } else if (string[i] === '"') {
+      newSafeString += '&quot';
+    } else if (string[i] === "'") {
+      newSafeString += '&#x27';
+    } else if (string[i] === '/') {
+      newSafeString += '&#x2F';
+    } else if (string[i] === 'alert') {
+      newSafeString += '&#x2F';
+    }
+     else {
+      newSafeString += string[i];
+    }
+  }
+  console.log(newSafeString);
+  return newSafeString;
 };
 
 var convertTime = function(time) {
