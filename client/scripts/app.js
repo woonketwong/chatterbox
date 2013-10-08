@@ -79,9 +79,8 @@ var getMessages = function(){
   $.ajax({
     url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'GET',
-    data: {
-      order: '-createdAt'
-    },
+//    data: 'where: {"createdAt":{"$gte": ' + lastMessage + '}}',
+      data: { order: '-createdAt' },
     contentType: 'application/json',
     success: function (data) {
       addNewMessages(data.results);
@@ -94,18 +93,24 @@ var getMessages = function(){
 };
 
 var addNewMessages = function(messages) {
-
   for (var i = messages.length - 1; i >= 0; i --) {
     var thisMessageDate = new Date(messages[i].createdAt);
     if (thisMessageDate > lastMessage) {
-      console.log(thisMessageDate + "  " + lastMessage);
       if (messages[i].roomname === thisUser.room){
         var safeString = makeSafeString(messages[i].text);
         var thisDate = convertTime(messages[i].createdAt);
-        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
         lastMessage = new Date(messages[i].createdAt);
+        if (thisUser.friends[messages[i].username]) {
+          $('#chat-box').prepend("<div class='chat-container friend'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+        } else {
+          $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+        }
       }
     }
+  }
+  // // only keep the 20 most recent messages
+  if ($('#chat-box').children().length > 20) {
+    $('#chat-box').find('div:nth-child(n+21)').remove();
   }
 };
 

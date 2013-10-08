@@ -77,6 +77,9 @@ header p {
   font-color: #cc0000;
   font-weight: 600;
 }
+.friend {
+  background-color: red !important;
+}
 
 #enter-chat {
   width:480px;
