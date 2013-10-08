@@ -19,6 +19,7 @@ body {
     font-size: 35px;
 }
 
+/* ?? ??? */
 #main ul {
     padding-left: 20px;
 }
@@ -37,4 +38,30 @@ body {
     font-size: 12px;
     color: green;
     line-height: 13px;
+}
+
+li {
+  list-style: none;
+}
+
+.chatBox {
+    width: 100%;
+    margin: 10px auto;
+    border: 1px solid #999;
+    min-height: 20px;
+}
+
+.chatter-name {
+  font-size:13px;
+  color:#cc0000;
+  display: inline;
+}
+.chatter-time {
+  font-size:13px;
+  color:#777;
+  display: inline;
+}
+.chatter-text {
+  font-size:16px;
+  color:#000;
 }
