@@ -10,7 +10,7 @@ var lastMessage = 0;
 $(document).ready(function(){
   getUserName();
   getMessages();
-  var cycleNewMessages = setInterval(getMessages, 2000);
+  var cycleNewMessages = setInterval(getMessages, 1000);
 
   $('#submitChat').on('click', function(e){
     e.preventDefault();
@@ -60,9 +60,10 @@ $(document).ready(function(){
         rooms[newRoomName] = true;
         alert('New room created. Joining that room.');
         $('.userRoom').text(newRoomName);
-        $('#roomList sidebar-list').append('<a href="#" class="currentRoom"><p>' + newRoomName + '</p></a>');
+        $('#roomList .sidebar-list').append('<a href="#" class="currentRoom"><p>' + newRoomName + '</p></a>');
       } else {
         alert('Room already exists. Moving you to that room.');
+        $('.userRoom').text(newRoomName);
       }
       thisUser.room = newRoomName;
     }
@@ -98,8 +99,7 @@ var getMessages = function(){
   $.ajax({
     url: 'https://api.parse.com/1/classes/chatterbox',
     type: 'GET',
-//    data: 'where: {"createdAt":{"$gte": ' + lastMessage + '}}',
-      data: { order: '-createdAt' },
+    data: { order: '-createdAt' },
     contentType: 'application/json',
     success: function (data) {
       addNewMessages(data.results);
@@ -116,7 +116,7 @@ var addNewMessages = function(messages) {
     var thisMessageDate = new Date(messages[i].createdAt);
     if (thisMessageDate > lastMessage) {
       if (rooms[messages[i].roomname] === undefined) {
-        $('#roomList sidebar-list').append('<a href="#" class="currentRoom"><p>' + messages[i].roomname + '</p></a>');
+        $('#roomList .sidebar-list').append('<a href="#" class="currentRoom"><p>' + messages[i].roomname + '</p></a>');
         rooms[messages[i].roomname] = true;
       }
       if (messages[i].roomname === thisUser.room){
