@@ -7,7 +7,7 @@
 
     <!-- external javascript -->
     <script src="bower_components/jquery/jquery.min.js"></script>
-    <script src="bower_components/underscore/underscore-min.js"></script>    
+    <script src="bower_components/underscore/underscore-min.js"></script>
     <!-- internal javascript -->
     <script src="scripts/config.js"></script>
     <script src="scripts/app.js"></script>
@@ -15,12 +15,19 @@
   <body>
 
     <div id="main">
-      <h1>Chat-Client</h1>
-
-      <div class="chatBox">
-        <ul>
-        </ul>
+      <header>
+        <h1>Hack.Chat Client</h1>
+        <p>You are chatting as: <span class="userName"></span></p>
+      </header>
+      <div id="enter-chat">
+        <form>
+          <input id="chatText" type="text" placeholder="Enter a chat message" autofocus>
+          <input id="submitChat" type="submit" value="Send">
+        </form>
       </div>
+      <div id="chat-box">
+      </div>
+
     </div>
 
   </body>

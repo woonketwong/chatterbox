@@ -5,23 +5,13 @@ body {
 }
 
 #main {
-    width: 500px;
+    width: 960px;
     margin: auto;
     text-align: left;
     background: white;
-    padding: 50px 60px;
+    padding: 10px 60px;
     border: solid #ddd;
     border-width: 0 1px 1px 1px;
-}
-
-#main h1 {
-    margin-top: 0;
-    font-size: 35px;
-}
-
-/* ?? ??? */
-#main ul {
-    padding-left: 20px;
 }
 
 #main .error {
@@ -40,28 +30,79 @@ body {
     line-height: 13px;
 }
 
-li {
-  list-style: none;
+header {
+  width: 915px;
+  height: 37px;
+  background-color: #B0D6D4;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
-.chatBox {
-    width: 100%;
-    margin: 10px auto;
-    border: 1px solid #999;
-    min-height: 20px;
+header h1 {
+  margin-top: 0;
+  font-size: 35px;
+  float:left;
 }
 
-.chatter-name {
-  font-size:13px;
-  color:#cc0000;
-  display: inline;
+header p {
+  float:right;
+  font-size:19px;
+  font-weight: 700;
+  padding: 0;
+  margin-top:9px;
 }
-.chatter-time {
-  font-size:13px;
-  color:#777;
-  display: inline;
+
+#chat-box {
+  float:left;
+  width: 600px;
+  min-height:10px;
+  border: 1px solid #999;
+  border-radius:10px;
+  margin:0 auto;
 }
-.chatter-text {
+
+.chat-container {
+  width: 425px;
+  background-color: #B0D6D4;
+  border: 1px solid #999;
+  margin:10px auto 10px auto;
+  padding: 20px 10px 20px 10px;
+}
+.chat-container p {
+  margin: 0;
+  padding: 5px 0 5px 0;
+}
+.chat-user {
+  font-size:18px;
+  font-color: #cc0000;
+  font-weight: 600;
+}
+
+#enter-chat {
+  width:480px;
+  height: 50px;
+  margin: 0 auto 20px auto;
+}
+
+#enter-chat input[type=text] {
+  height: 30px;
+  width: 400px;
+  border: 1px solid #000;
+  padding: 1px 5px 1px 5px;
+}
+#enter-chat input[type=text]:focus {
+  outline:none;
+  border-color:red;
+  box-shadow: inset 2px 2px 4px #777;
+}
+
+#enter-chat input[type=submit] {
+  border: 1px solid #000;
+  background-color: #ccc;
+  border-radius:4px;
+  color: #000;
   font-size:16px;
-  color:#000;
+  font-weight: 600;
+  height: 33px;
+  width: 60px;
 }
