@@ -94,24 +94,19 @@ var getMessages = function(){
 };
 
 var addNewMessages = function(messages) {
-  
-  for (var i=messages.length-1; i >= 0; i--) {
-    if (messages[i].roomname !== thisUser.room) {
-      rooms[messages.room] = messages.room;
-    } else if (messages[i].text !== undefined) {
-      var safeString = makeSafeString(messages[i].text);
-      var thisDate = convertTime(messages[i].createdAt);
-      var currentMessageDate = new Date(messages[i].createdAt);
-      console.log(i, currentMessageDate);
-      if (currentMessageDate > lastMessage){
+
+  for (var i = messages.length - 1; i >= 0; i --) {
+    var thisMessageDate = new Date(messages[i].createdAt);
+    if (thisMessageDate > lastMessage) {
+      console.log(thisMessageDate + "  " + lastMessage);
+      if (messages[i].roomname === thisUser.room){
+        var safeString = makeSafeString(messages[i].text);
+        var thisDate = convertTime(messages[i].createdAt);
         $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+        lastMessage = new Date(messages[i].createdAt);
       }
-    } else {
-      continue;
     }
   }
-  lastMessage = new Date(messages[messages.length-1].createdAt);
-//  console.log(lastMessage);
 };
 
 var makeSafeString = function(string) {
