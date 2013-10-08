@@ -1,13 +1,16 @@
 var thisUser = {
-  username: "",
+  username: "anonymous",
   room: "lobby",
-  friends: []
+  friends: {}
 };
+
+var rooms = {"lobby": true};
+var lastMessage = 0;
 
 $(document).ready(function(){
   getUserName();
   getMessages();
-//  var cycleNewMessages = setInterval(getMessages, 7000);
+  var cycleNewMessages = setInterval(getMessages, 2000);
 
   $('#submitChat').on('click', function(e){
     e.preventDefault();
@@ -21,9 +24,30 @@ $(document).ready(function(){
     sendMessages(newChatMessage);
   });
 
-  $('.chat-box').on('click',function(e){
+  $('#chat-box').on('click', "a.chatterName", function(e){
     e.preventDefault();
-    console.log($(this));
+    if (thisUser.friends.hasOwnProperty($(this).text())){
+      alert('You are already friend with ' + $(this).text());
+    } else {
+      thisUser.friends[$(this).text()] = $(this).text();
+      alert($(this).text() + ' added as friend.');
+    }
+  });
+
+  $('#makeRoomButton').on('click', function(e){
+    e.preventDefault();
+    var newRoomName = $('#newRoomName').val();
+    if(!newRoomName){
+      alert("Please enter a room name");
+    } else {
+      if (!rooms.hasOwnProperty(newRoomName)){
+        rooms[newRoomName] = true;
+        alert('New room created');
+      } else {
+        alert('Room already exist and switching to that room');
+      }
+        thisUser.room = newRoomName;
+    }
   });
 
 });
@@ -70,16 +94,24 @@ var getMessages = function(){
 };
 
 var addNewMessages = function(messages) {
-  $('.chat-container').remove();
+  
   for (var i=messages.length-1; i >= 0; i--) {
-    if (messages[i].text !== undefined) {
-        var safeString = makeSafeString(messages[i].text);
-        var thisDate = convertTime(messages[i].createdAt);
+    if (messages[i].roomname !== thisUser.room) {
+      rooms[messages.room] = messages.room;
+    } else if (messages[i].text !== undefined) {
+      var safeString = makeSafeString(messages[i].text);
+      var thisDate = convertTime(messages[i].createdAt);
+      var currentMessageDate = new Date(messages[i].createdAt);
+      console.log(i, currentMessageDate);
+      if (currentMessageDate > lastMessage){
         $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
+      }
     } else {
       continue;
     }
   }
+  lastMessage = new Date(messages[messages.length-1].createdAt);
+//  console.log(lastMessage);
 };
 
 var makeSafeString = function(string) {
