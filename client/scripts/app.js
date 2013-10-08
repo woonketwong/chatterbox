@@ -64,10 +64,29 @@ var addNewMessages = function(messages) {
       if (messages[i].text[0] === "<") {
         continue;
       } else {
-        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ messages[i].createdAt+ " " + messages[i].username + " says:</p><p>"+ messages[i].text + "</p>" );
+        var thisDate = convertTime(messages[i].createdAt);
+        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " " + messages[i].username + " says:</p><p>"+ messages[i].text + "</p>" );
       }
     } else {
       continue;
     }
   }
 };
+
+var convertTime = function(time) {
+  thisDate = new Date(time);
+  var month  = (thisDate.getMonth() + 1);
+  var day = thisDate.getDate();
+  var year = thisDate.getFullYear();
+  var hour = thisDate.getHours();
+  var amPm = (hour > 12) ? "PM" : "AM";
+  if (hour !== 12) {
+    hour = (hour > 12) ? hour-12 : hour;
+  }
+  var minutes = thisDate.getMinutes();
+
+  minutes = ('0' + minutes).slice(-2);
+  var seconds = thisDate.getSeconds();
+  thisDate = day + " / " + month + " / " + year + " at " + hour + ":" + minutes + ":" + seconds + " " + amPm;
+  return thisDate;
+}
