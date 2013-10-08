@@ -38,3 +38,56 @@ body {
     color: green;
     line-height: 13px;
 }
+#chat-box {
+  width: 480px;
+  min-height:10px;
+  border: 1px solid #999;
+  border-radius:10px;
+  margin:0 auto;
+}
+
+.chat-container {
+  width: 425px;
+  background-color: #B0D6D4;
+  border: 1px solid #999;
+  margin:10px auto 10px auto;
+  padding: 20px 10px 20px 10px;
+}
+.chat-container p {
+  margin: 0;
+  padding: 5px 0 5px 0;
+}
+.chat-user {
+  font-size:18px;
+  font-color: #cc0000;
+  font-weight: 600;
+}
+
+#enter-chat {
+  width:480px;
+  height: 50px;
+  margin: 0 auto 20px auto;
+}
+
+#enter-chat input[type=text] {
+  height: 30px;
+  width: 400px;
+  border: 1px solid #000;
+  padding: 1px 5px 1px 5px;
+}
+#enter-chat input[type=text]:focus {
+  outline:none;
+  border-color:red;
+  box-shadow: inset 2px 2px 4px #777;
+}
+
+#enter-chat input[type=submit] {
+  border: 1px solid #000;
+  background-color: #ccc;
+  border-radius:4px;
+  color: #000;
+  font-size:16px;
+  font-weight: 600;
+  height: 33px;
+  width: 60px;
+}
