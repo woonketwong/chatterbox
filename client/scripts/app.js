@@ -1,25 +1,38 @@
+var thisUser = {
+  username: "",
+  room: "lobby",
+  friends: []
+};
 
 $(document).ready(function(){
+  getUserName();
   getMessages();
-  var cycleNewMessages = setInterval(getMessages, 2000);
-
-  var search = location.search.substring(1);
-  var URLparams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+//  var cycleNewMessages = setInterval(getMessages, 7000);
 
   $('#submitChat').on('click', function(e){
     e.preventDefault();
     var chatMessage = $('#chatText').val();
     $('#chatText').val("");
     var newChatMessage = {
-     'username': URLparams.username,
+     'username': thisUser.username,
      'text': chatMessage,
-     'roomname': 'lobby'
+     'roomname': thisUser.room
     };
     sendMessages(newChatMessage);
   });
+
+  $('.chat-box').on('click',function(e){
+    e.preventDefault();
+    console.log($(this));
+  });
+
 });
 
-var lastRecordedTime = 0;
+var getUserName = function() {
+  var search = location.search.substring(1);
+  var URLparams = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+  thisUser.username = URLparams.username;
+};
 
 var sendMessages = function(newChatMessage){
   $.ajax({
@@ -45,9 +58,7 @@ var getMessages = function(){
       order: '-createdAt'
     },
     contentType: 'application/json',
-//    data: encodeURI({where: {"created_at": {$gt: lastRecordedTime}}}),
     success: function (data) {
-//      lastRecordedTime = data.results[data.results.length-1].createdAt;
       addNewMessages(data.results);
     },
     error: function (data) {
@@ -63,7 +74,7 @@ var addNewMessages = function(messages) {
     if (messages[i].text !== undefined) {
         var safeString = makeSafeString(messages[i].text);
         var thisDate = convertTime(messages[i].createdAt);
-        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " " + messages[i].username + " says:</p><p>"+ safeString + "</p>" );
+        $('#chat-box').prepend("<div class='chat-container'><p class='chat-user'>On "+ thisDate + " <a href='#' class='chatterName'>" + messages[i].username + "</a> says:</p><p>"+ safeString + "</p>" );
     } else {
       continue;
     }
@@ -85,14 +96,10 @@ var makeSafeString = function(string) {
       newSafeString += '&#x27';
     } else if (string[i] === '/') {
       newSafeString += '&#x2F';
-    } else if (string[i] === 'alert') {
-      newSafeString += '&#x2F';
-    }
-     else {
+    } else {
       newSafeString += string[i];
     }
   }
-  console.log(newSafeString);
   return newSafeString;
 };
 
